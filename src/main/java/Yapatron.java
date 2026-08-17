@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Duke {
+public class Yapatron {
   public static final String LINE = "____________________________________________________________";
   public static void main(String[] args) {
     String banner = "██╗   ██╗ █████╗ ██████╗  █████╗ ████████╗██████╗  ██████╗ ███╗   ██╗\n" +
@@ -23,7 +23,7 @@ public class Duke {
 
     while (scanner.hasNextLine()) {
       String ans = scanner.nextLine();
-      String[] parts = ans.split(" "); // split into cmd and num
+      String[] parts = ans.split(" ", 2); // split into cmd and details
       String fn = parts[0];
 
       // saying bye
@@ -54,9 +54,8 @@ public class Duke {
           System.out.println();
           System.out.println(LINE);
 
-        } else {
-
-
+        } else { 
+          // if task is indeed not done
           list.get(idx).markAsDone();
           System.out.println("Good job! That's one thing down!!");
           System.out.println("  " + list.get(idx));
@@ -69,7 +68,7 @@ public class Duke {
 
         int idx = Integer.parseInt(parts[1]) - 1;
         if (!list.get(idx).isDone()) {
-          // if not done
+          // if already unmarked 
           System.out.println("This task is already unmarked!");
           System.out.println("  " + list.get(idx));
           System.out.println();
@@ -82,39 +81,44 @@ public class Duke {
           System.out.println(LINE);
         }
 
-
-
-
-
       } else {
         // adding to list and incre count
-        count += 1;
 
         //create new task with scanner
-        Task t = new Task(ans);
-
-        if (count >= 5 && count < 10) {
-
-          list.add(t);
-          System.out.println("added: " + ans);
-          System.out.println("Wow!!! You have a lot to add!! Anything else??");
-          System.out.println(LINE);
-        } else if (count >= 10 && count < 20) {
-          list.add(t);
-          System.out.println("added: " + ans);
-          System.out.println("R u done.");
-          System.out.println(LINE);
-        } else if (count >= 20) {
-          list.add(t);
-          System.out.println("added: " + ans);
-          System.out.println("LEAVE ME ALONEEEE");
-          System.out.println(LINE);
-        } else {
-          list.add(t);
-          System.out.println("added: " + ans);
-          System.out.println("What's next?");
-          System.out.println(LINE);
+        Task t = null;
+        if (fn.equals("todo")) {
+          t = new Todo(parts[1]);
+        } else if (fn.equals("deadline")) {
+          String[] deadlineParts = parts[1].split(" /by "); // split into desc and date
+          t = new Deadline(deadlineParts[0], deadlineParts[1]);
+        } else if (fn.equals("event")) {
+          String[] eventParts = parts[1].split(" /from "); // split into desc and times
+          String[] times = eventParts[1].split(" /to ");
+          t = new Event(eventParts[0], times[0], times[1]);
         } 
+
+        if (t != null) {
+          count += 1;
+
+          if (count >= 5 && count < 10) {
+            list.add(t);
+            System.out.println("added: " + t);
+            System.out.println("Wow!!! You have a lot to add!! Anything else??");
+          } else if (count >= 10 && count < 20) {
+            list.add(t);
+            System.out.println("added: " + t);
+            System.out.println("R u done.");
+          } else if (count >= 20) {
+            list.add(t);
+            System.out.println("added: " + t);
+            System.out.println("LEAVE ME ALONEEEE");
+          } else {
+            list.add(t);
+            System.out.println("added: " + t);
+            System.out.println("What's next?");
+          } 
+        }
+        System.out.println(LINE);
       }
     }
     scanner.close();
