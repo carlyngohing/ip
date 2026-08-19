@@ -43,8 +43,13 @@ public class Yapatron {
     if (fn.equals("bye") || fn.equals("BYE") || fn.equals("Bye")) {
       System.out.println("Bye!! Hope to see you again soon :)");
       System.exit(0);
-      // asking for list
+
+
+    } else if (fn.equals("delete")) {
+      handleDelete(parts, list);
+
     } else if (fn.equals("list")) {
+      // asking for list
       System.out.println();
       System.out.println(LINE);
       System.out.println("Here's your current list!");
@@ -59,13 +64,13 @@ public class Yapatron {
     } else if (fn.equals("mark")) {
       // mark as done
 
-        handleMark(parts, list, true);
-      
+      handleMark(parts, list, true);
+
 
     } else if (fn.equals("unmark")) {
 
-        handleMark(parts, list, false);
-      
+      handleMark(parts, list, false);
+
 
     } else {
       // adding to list and incre count
@@ -175,6 +180,26 @@ public class Yapatron {
 
 
   }
+
+  private static void handleDelete(String[] parts, List<Task> list) throws YapException {
+    if (parts.length < 2 || parts[1].isEmpty()) {
+      throw new YapException("Please specify the task number!");
+    }
+
+    try {
+      int idx = Integer.parseInt(parts[1]) - 1;
+      if (idx < 0 || idx >= list.size()) {
+        throw new YapException("There's no task with that number!");
+      }
+      Task t = list.remove(idx);
+      System.out.println("Alright! I've removed this task for you :)");
+      System.out.println("  " + t);
+      System.out.println("You have " + list.size() + " tasks left!!");
+    } catch (NumberFormatException e) {
+      throw new YapException("Please enter a valid integer!");
+    }
+  }
+
 
 
 
