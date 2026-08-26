@@ -30,6 +30,10 @@ public class Task {
     return "[" + this.getStatusIcon() + "] " + this.desc;
   }
 
+  public String toFileFormat() {
+    return (isDone ? "X" : "0" ) + " | " + desc;
+  }
+
 }
 
 
