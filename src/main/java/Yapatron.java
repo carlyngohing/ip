@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Yapatron {
   public static final String LINE = "____________________________________________________________";
+  private static final String PATH = "./data/yaptron.txt";
+
   public static void main(String[] args) {
     String banner = "██╗   ██╗ █████╗ ██████╗  █████╗ ████████╗██████╗  ██████╗ ███╗   ██╗\n" +
       "╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗████╗  ██║\n" +
@@ -17,14 +19,16 @@ public class Yapatron {
     System.out.println();
     System.out.println(LINE);
 
+    Save save = new Save(PATH);
+
     Scanner scanner = new Scanner(System.in);
-    List<Task> list = new ArrayList<>();
+    List<Task> list = save.getTasks();
 
     while (scanner.hasNextLine()) {
       String ans = scanner.nextLine();
 
       try {
-        action(ans, list);
+        action(ans, list, save);
       } catch (YapException e) {
         System.out.println(e.getMessage());
       }
@@ -34,7 +38,7 @@ public class Yapatron {
     scanner.close();
   }
 
-  private static void action(String ans, List<Task> list) throws YapException {
+  private static void action(String ans, List<Task> list, Save save) throws YapException {
 
     String[] parts = ans.split(" ", 2); // split into cmd and details
     String fn = parts[0];
@@ -47,6 +51,7 @@ public class Yapatron {
 
     } else if (fn.equals("delete")) {
       handleDelete(parts, list);
+      save.saveTasks(list);
 
     } else if (fn.equals("list")) {
       // asking for list
@@ -65,11 +70,13 @@ public class Yapatron {
       // mark as done
 
       handleMark(parts, list, true);
+      save.saveTasks(list);
 
 
     } else if (fn.equals("unmark")) {
 
       handleMark(parts, list, false);
+      save.saveTasks(list);
 
 
     } else {
@@ -116,21 +123,19 @@ public class Yapatron {
 
       if (t != null) {
         int count = list.size();
+        list.add(t);
+        save.saveTasks(list);
 
         if (count >= 5 && count < 10) {
-          list.add(t);
           System.out.println("added: " + t);
           System.out.println("Wow!!! You have a lot to add!! Anything else??");
         } else if (count >= 10 && count < 20) {
-          list.add(t);
           System.out.println("added: " + t);
           System.out.println("R u done.");
         } else if (count >= 20) {
-          list.add(t);
           System.out.println("added: " + t);
           System.out.println("LEAVE ME ALONEEEE");
         } else {
-          list.add(t);
           System.out.println("added: " + t);
           System.out.println("What's next?");
         } 
