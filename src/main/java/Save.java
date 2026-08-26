@@ -61,7 +61,7 @@ public class Save {
       }
   }
 
-  private Task parseTask(String line) {
+  private Task parseTask(String line) throws YapException {
     String[] parts = line.split(" \\| ");
     if (parts.length < 3) {
       return null;
