@@ -18,114 +18,114 @@ import java.io.IOException;
  * Handles loading tasks from a file and storing tasks into the file
  */
 public class Save {
-  private final String path;
-  
-  /**
-   * Creates a Save object with specified filepath
-   *
-   * @param path Path pf the file used to store data
-   */
-  public Save(String path) {
-    this.path = path;
-  }
+    private final String path;
 
-  /**
-   * Loads saved tasks from the file
-   *
-   * @return List of tasks loaded from file
-   * @throws YapException if there is a problem loading the file
-   */
-  public List<Task> getTasks() throws YapException {
-    // get tasks from the filepath
-    List<Task> tasks = new ArrayList<>();
-    File f = new File(this.path);
-
-    if (!f.exists()) {
-      return tasks;
+    /**
+     * Creates a Save object with specified filepath
+     *
+     * @param path Path pf the file used to store data
+     */
+    public Save(String path) {
+        this.path = path;
     }
 
-    try {
-      Scanner s = new Scanner(f);
-      while (s.hasNext()) {
-        String line = s.nextLine();
-        Task t = parseTask(line);
-        if (t != null) {
-          tasks.add(t);
+    /**
+     * Loads saved tasks from the file
+     *
+     * @return List of tasks loaded from file
+     * @throws YapException if there is a problem loading the file
+     */
+    public List<Task> getTasks() throws YapException {
+        // get tasks from the filepath
+        List<Task> tasks = new ArrayList<>();
+        File f = new File(this.path);
+
+        if (!f.exists()) {
+            return tasks;
         }
-      }
-    } catch (FileNotFoundException e) {
-      System.out.println("Whoops! Couldn't find this file: " + e.getMessage());
-    } catch (Exception e) {
-      System.out.println("There seems to be problem: " + e.getMessage());
+
+        try {
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                String line = s.nextLine();
+                Task t = parseTask(line);
+                if (t != null) {
+                    tasks.add(t);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Whoops! Couldn't find this file: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("There seems to be problem: " + e.getMessage());
+        }
+
+        return tasks;
     }
 
-    return tasks;
-  }
-  
-  /**
-   * Saves the list of tasks into the file
-   *
-   * @param tasks List of tasks to save into the file
-   * @throws YapException if error occurs while writing into the file
-   */
-  public void saveTasks(List<Task> tasks) throws YapException {
 
-    // saves list of tasks to the file
-    try {
-      File f = new File(this.path);
-      if (f.getParentFile() != null && !f.getParentFile().exists()) {
-        f.getParentFile().mkdirs();
-      }
+    /**
+     * Saves the list of tasks into the file
+     *
+     * @param tasks List of tasks to save into the file
+     * @throws YapException if error occurs while writing into the file
+     */
+    public void saveTasks(List<Task> tasks) throws YapException {
+        // saves list of tasks to the file
+        try {
+            File f = new File(this.path);
+            if (f.getParentFile() != null && !f.getParentFile().exists()) {
+                f.getParentFile().mkdirs();
+            }
 
-      FileWriter fw = new FileWriter(this.path);
-      for (Task t: tasks) {
-        fw.write(t.toFileFormat() + System.lineSeparator());
-      }
-      fw.close();
-    } catch (IOException e) {
-      System.out.println("Whoops! Something went wrong: " + e.getMessage());
-      }
-  }
-
-  private Task parseTask(String line) throws YapException {
-    String[] parts = line.split(" \\| ");
-    if (parts.length < 3) {
-      return null;
+            FileWriter fw = new FileWriter(this.path);
+            for (Task t: tasks) {
+                fw.write(t.toFileFormat() + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Whoops! Something went wrong: " + e.getMessage());
+        }
     }
 
-    String taskType = parts[0];
-    boolean isDone = parts[1].equals("X");
-    String desc = parts[2];
-    Task t = null;
-
-    switch (taskType) {
-      case "[TASK]" :
-          t = new Todo(desc);
-          break;
-      case "[DEADLINE]" :
-          if (parts.length < 4) {
+    private Task parseTask(String line) throws YapException {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
             return null;
-          }
-          t = new Deadline(desc, parts[3]);
-          break;
-      case "[EVENT]" :
-          if (parts.length < 5) {
-            return null;
-          }
-          t = new Event(desc, parts[3], parts[4]);
-          break;
-      default:
-          return null;
-      }
+        }
 
-      if (isDone) {
-        t.markAsDone();
-      }
+        String taskType = parts[0];
+        boolean isDone = parts[1].equals("X");
+        String desc = parts[2];
+        Task t = null;
 
-      return t;
+        switch (taskType) {
+            case "[TASK]" :
+                t = new Todo(desc);
+                break;
+            case "[DEADLINE]" :
+                if (parts.length < 4) {
+                    return null;
+                }
+                t = new Deadline(desc, parts[3]);
+                break;
+            case "[EVENT]" :
+                if (parts.length < 5) {
+                    return null;
+                }
+                t = new Event(desc, parts[3], parts[4]);
+                break;
+            default:
+                return null;
+        }
 
-  }
-  }
+        if (isDone) {
+            t.markAsDone();
+        }
+
+        return t;
+
+    }
+}
 
 
 
