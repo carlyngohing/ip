@@ -14,14 +14,27 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
+/**
+ * Handles loading tasks from a file and storing tasks into the file
+ */
 public class Save {
   private final String path;
-
+  
+  /**
+   * Creates a Save object with specified filepath
+   *
+   * @param path Path pf the file used to store data
+   */
   public Save(String path) {
     this.path = path;
   }
 
+  /**
+   * Loads saved tasks from the file
+   *
+   * @return List of tasks loaded from file
+   * @throws YapException if there is a problem loading the file
+   */
   public List<Task> getTasks() throws YapException {
     // get tasks from the filepath
     List<Task> tasks = new ArrayList<>();
@@ -48,7 +61,13 @@ public class Save {
 
     return tasks;
   }
-
+  
+  /**
+   * Saves the list of tasks into the file
+   *
+   * @param tasks List of tasks to save into the file
+   * @throws YapException if error occurs while writing into the file
+   */
   public void saveTasks(List<Task> tasks) throws YapException {
 
     // saves list of tasks to the file
