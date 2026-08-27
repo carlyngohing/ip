@@ -8,7 +8,22 @@ import yapatron.task.Deadline;
 import yapatron.task.Event;
 import yapatron.ui.Ui;
 
+/**
+ * Handles command execution in the Yapatron chatbot
+ */
+
 public class Commands {
+
+  /**
+   * Handles command execution by parsing through command strings and does the corresponding actions
+   *
+   * @param cmd Full command string
+   * @param tasks TaskList instance with task data
+   * @param ui Current ui instance
+   * @param save Current Save instance 
+   * @return True if command signals a program exit, False otherwise
+   * @throws YapException if commands or the command formats are invalid
+   */
   public static boolean doCommands(String cmd, TaskList tasks, Ui ui, Save save) throws YapException {
     String[] parts = cmd.split(" ", 2);
     String fn  = parts[0];
