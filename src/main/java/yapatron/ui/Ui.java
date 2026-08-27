@@ -1,3 +1,5 @@
+package yapatron.ui;
+import yapatron.task.Task;
 import java.util.Scanner;
 
 public class Ui {
