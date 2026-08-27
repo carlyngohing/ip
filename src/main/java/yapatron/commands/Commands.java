@@ -1,4 +1,5 @@
 package yapatron.commands;
+
 import yapatron.YapException;
 import yapatron.save.Save;
 import yapatron.task.TaskList;
@@ -7,6 +8,9 @@ import yapatron.task.Todo;
 import yapatron.task.Deadline;
 import yapatron.task.Event;
 import yapatron.ui.Ui;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class Commands {
   public static boolean doCommands(String cmd, TaskList tasks, Ui ui, Save save) throws YapException {
@@ -33,6 +37,11 @@ public class Commands {
     tasks.printList();
     ui.printLine();
     return false;
+
+  } else if (fn.equals("find")) {
+      handleFind(parts[1].trim(), tasks, ui);
+      return false;
+
 
   } else if (fn.equals("mark")) {
     // mark as done
@@ -107,6 +116,14 @@ public class Commands {
     }
     return false;
   }
+  }
+
+  private static void handleFind(String word, TaskList tasks, Ui ui) throws YapException {
+      if (word.isEmpty()) {
+          throw new YapException("Please share a keyword!");
+      }
+      List<Task> matchingTasks = tasks.find(word);
+      ui.printMatchingTasks(matchingTasks);
   }
 
   private static int getIndex(String[] parts) throws YapException {
