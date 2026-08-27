@@ -57,6 +57,15 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Returns task description
+     *
+     * @return task description
+     */
+    public String getDesc() {
+        return this.desc;
+    }
+
 
     /** 
      * Returns the string representation of the task

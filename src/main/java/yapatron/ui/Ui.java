@@ -1,6 +1,8 @@
 package yapatron.ui;
 import yapatron.task.Task;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Handles user interactions such as reading inputs and printing responses
@@ -34,6 +36,23 @@ public class Ui {
         System.out.println();
         System.out.println(LINE);
     }
+
+    /** 
+     * Displays tasks that correspond to a keyword
+     *
+     * @param matchingTasks List of matching tasks to display
+     */
+    public void printMatchingTasks(List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("Oops!! There are no matching tasks in your list :(");
+            return;
+        }
+        System.out.println("Here are the tasks I found!!!");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println( (i + 1) + ". " + matchingTasks.get(i));
+        }
+    }
+
 
     /**
      * Gets user input from command line

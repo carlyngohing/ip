@@ -33,7 +33,6 @@ public class Event extends Task {
             return "[E]" + super.toString() + " (from: " + this.from + " to: " + 
                 this.to + ")";
         }
-
     /**
      * Formats the task data into a pipe-delimted string for file storage
      *

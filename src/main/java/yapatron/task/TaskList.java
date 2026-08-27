@@ -71,6 +71,22 @@ public class TaskList {
         System.out.println();
         System.out.println("Missing anything?");
     }
+
+    /**
+     * Finds tasks whose descriptions have the keyword
+     *
+     * @param word word to search for
+     * @return List of matching tasks
+     */
+    public List<Task> find(String word) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task t : tasks) {
+            if (t.getDesc().toLowerCase().contains(word.toLowerCase())) {
+                matchingTasks.add(t);
+            }
+        }
+        return matchingTasks;
+    }
 }
 
 
