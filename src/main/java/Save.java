@@ -15,7 +15,7 @@ public class Save {
     this.path = path;
   }
 
-  public List<Task> getTasks() {
+  public List<Task> getTasks() throws YapException {
     // get tasks from the filepath
     List<Task> tasks = new ArrayList<>();
     File f = new File(this.path);
@@ -42,7 +42,7 @@ public class Save {
     return tasks;
   }
 
-  public void saveTasks(List<Task> tasks) {
+  public void saveTasks(List<Task> tasks) throws YapException {
 
     // saves list of tasks to the file
     try {
