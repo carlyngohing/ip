@@ -27,7 +27,7 @@ public class Yapatron {
      * Initialises Ui and storage
      * Attempts to load existing tasks from the file
      *
-     * @param filePath Path to the file where task data is stored
+     * @param path Path to the file where task data is stored
      */
 
     public Yapatron(String path) {
@@ -38,6 +38,21 @@ public class Yapatron {
         } catch (YapException e) {
             ui.printLoadError();
             tasks = new TaskList();
+        }
+    }
+
+    /**
+     * Returns execution output strings 
+     * directly to UI
+     * @param input The raw command string entered by the user
+     * @return The response string produced by executing the command
+     */
+    public String getResponse(String input) {
+        try {
+            Commands.doCommands(input, tasks, ui, save);
+            return ui.getLastResponse();
+        } catch (YapException e) {
+            return e.getMessage();
         }
     }
 
