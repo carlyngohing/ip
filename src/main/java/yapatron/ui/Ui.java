@@ -1,17 +1,17 @@
 package yapatron.ui;
+
 import yapatron.task.Task;
 import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Handles user interactions such as reading inputs and printing responses
  */
-
 public class Ui {
 
     public static final String LINE = "____________________________________________________________";
     private final Scanner scanner;
+    private String lastResponse = "";
 
     /**
      * Creates new Ui instance with scanner
@@ -21,20 +21,35 @@ public class Ui {
     }
 
     /**
+     * Helper method to print to stdout and cache response for GUI.
+     */
+    private void print(String message) {
+        System.out.println(message);
+        this.lastResponse = message;
+    }
+
+    /**
+     * Returns the last generated response string for the GUI.
+     *
+     * @return String output of the last action
+     */
+    public String getLastResponse() {
+        return lastResponse;
+    }
+
+    /**
      * Displays welcome message when program starts
      */
     public void printWelcome() {
-        String banner = "██╗   ██╗ █████╗ ██████╗  █████╗ ████████╗██████╗  ██████╗ ███╗   ██╗\n" +
+        String banner = "██╗    ██╗ █████╗ ██████╗  █████╗ ████████╗██████╗  ██████╗ ███╗   ██╗\n" +
             "╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗████╗  ██║\n" +
             " \\████╔╝ ███████║██████╔╝███████║   ██║   ██████╔╝██║   ██║██╔██╗ ██║\n" +
             "  ╚██╔╝  ██╔══██║██╔═══╝ ██╔══██║   ██║   ██╔══██╗██║   ██║██║╚██╗██║\n" +
             "   ██║   ██║  ██║██║     ██║  ██║   ██║   ██║  ██║╚██████╔╝██║ ╚████║\n" +
             "   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝";
-        System.out.println(banner);
-        System.out.println("Hello Hello!  I'm Yapatron :D");
-        System.out.println("What can I do for you?");
-        System.out.println();
-        System.out.println(LINE);
+
+        String welcomeMsg = banner + "\nHello Hello!  I'm Yapatron :D\nWhat can I do for you?";
+        print(welcomeMsg);
     }
 
     /** 
@@ -44,15 +59,18 @@ public class Ui {
      */
     public void printMatchingTasks(List<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
-            System.out.println("Oops!! There are no matching tasks in your list :(");
+            print("Oops!! There are no matching tasks in your list :(");
             return;
         }
-        System.out.println("Here are the tasks I found!!!");
+        StringBuilder sb = new StringBuilder("Here are the tasks I found!!!\n");
         for (int i = 0; i < matchingTasks.size(); i++) {
-            System.out.println( (i + 1) + ". " + matchingTasks.get(i));
+            sb.append((i + 1)).append(". ").append(matchingTasks.get(i));
+            if (i < matchingTasks.size() - 1) {
+                sb.append("\n");
+            }
         }
+        print(sb.toString());
     }
-
 
     /**
      * Gets user input from command line
@@ -74,7 +92,7 @@ public class Ui {
      * Prints message when user wants to terminate the app
      */
     public void printBye() {
-        System.out.println("Bye!! Hope to see you again soon :)");
+        print("Bye!! Hope to see you again soon :)");
     }
 
     /**
@@ -85,17 +103,17 @@ public class Ui {
      * @param count total number of tasks in the list
      */
     public void printTaskLine(Task t, int count) {
-        System.out.println("added: " + t);
-
+        String msg = "added: " + t + "\n";
         if (count >= 5 && count < 10) {
-            System.out.println("Wow!!! You have a lot to add!! Anything else??");
+            msg += "Wow!!! You have a lot to add!! Anything else??";
         } else if (count >= 10 && count < 20) {
-            System.out.println("R u done.");
+            msg += "R u done.";
         } else if (count >= 20) {
-            System.out.println("LEAVE ME ALONEEEE");
+            msg += "LEAVE ME ALONEEEE";
         } else {
-            System.out.println("What's next?");
+            msg += "What's next?";
         }
+        print(msg);
     }
 
     /**
@@ -104,15 +122,13 @@ public class Ui {
      * @param msg Error description
      */
     public void printError(String msg) {
-        System.out.println(msg);
-        System.out.println(LINE);
+        print(msg);
     }
 
     /** 
      * Prints an error message when saved task couldn't be loaded from storage
      */
     public void printLoadError() {
-        System.out.println("Whoops!! I couldn't save that file :(");
-        System.out.println(LINE);
+        print("Whoops!! I couldn't save that file :(");
     }
 }

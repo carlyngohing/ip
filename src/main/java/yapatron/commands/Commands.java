@@ -1,16 +1,16 @@
 package yapatron.commands;
 
-import yapatron.YapException;
-import yapatron.save.Save;
-import yapatron.task.TaskList;
-import yapatron.task.Task;
-import yapatron.task.Todo;
-import yapatron.task.Deadline;
-import yapatron.task.Event;
-import yapatron.ui.Ui;
-
 import java.util.List;
 import java.util.ArrayList;
+
+import yapatron.YapException;
+import yapatron.save.Save;
+import yapatron.task.Deadline;
+import yapatron.task.Event;
+import yapatron.task.Task;
+import yapatron.task.TaskList;
+import yapatron.task.Todo;
+import yapatron.ui.Ui;
 
 /**
  * Handles command execution in the Yapatron chatbot
@@ -29,7 +29,7 @@ public class Commands {
      */
     public static boolean doCommands(String cmd, TaskList tasks, Ui ui, Save save) throws YapException {
         String[] parts = cmd.split(" ", 2);
-        String fn  = parts[0];
+        String fn = parts[0];
         // use t/f to know whether to leave
 
         if (fn.equals("bye") || fn.equals("BYE") || fn.equals("Bye")) {
