@@ -117,9 +117,12 @@ public class Save {
             default:
                 return null;
         }
+        
+        assert task != null : "A recognised task type must be used";
 
         if (isDone) {
             task.markAsDone();
+            assert task.isDone() : "A stored completed task must be restored as completed";
         }
 
         return task;
