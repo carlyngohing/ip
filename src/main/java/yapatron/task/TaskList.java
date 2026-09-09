@@ -79,13 +79,13 @@ public class TaskList {
      * @return List of matching tasks
      */
     public List<Task> find(String word) {
-        List<Task> matchingTasks = new ArrayList<>();
-        for (Task t : tasks) {
-            if (t.getDesc().toLowerCase().contains(word.toLowerCase())) {
-                matchingTasks.add(t);
-            }
-        }
-        return matchingTasks;
+        String keyword = word.toLowerCase(Locale.ROOT);
+
+        return tasks.stream().
+        filter(task -> task.getDesc()
+        .toLowerCase(Locale.ROOT)
+        .contains(keyword))
+        .collect(Collectors.toList());
     }
 }
 
