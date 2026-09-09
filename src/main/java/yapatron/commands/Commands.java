@@ -52,17 +52,6 @@ public class Commands {
             ui.printLine();
             return false;
 
-        } else if (fn.equals("mark")) {
-            // mark as done
-            int idx = getIndex(parts);
-            Task t = tasks.mark(idx);
-            save.saveTasks(tasks.getTasks());
-            System.out.println("Good job! That's one thing down!!");
-            System.out.println("  " + t);
-            System.out.println();
-            ui.printLine();
-            return false;
-
         } else if (fn.equals("find")) {
             handleFind(parts[1].trim(), tasks, ui);
             return false;
@@ -132,6 +121,7 @@ public class Commands {
             } else {
                 throw new YapException("Sorry!!! I don't know how to do that!");
             }
+            assert t != null : "Every supported task command must create a task";
 
             if (t != null) {
                 tasks.addTask(t);
