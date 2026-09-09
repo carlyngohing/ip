@@ -12,6 +12,10 @@ public class TaskList {
     }
 
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "TaskList must be created with a task collection";
+        for (Task task : tasks) {
+            assert task != null : "TaskList must not contain null tasks";
+        }
         this.tasks = tasks;
     }
 
@@ -20,6 +24,7 @@ public class TaskList {
     }
 
     public void addTask(Task task) {
+        assert task != null : "A null task must not be added to TaskList";
         tasks.add(task);
     }
 
@@ -31,8 +36,11 @@ public class TaskList {
         if (idx < 0 || idx >= tasks.size()) {
             throw new YapException("There's no task with that number!");
         }
+        int originalSize = tasks.size();
+        Task deletedTask = tasks.remove(idx);
+        assert tasks.size() == originalSize - 1 : "Deleting one task must reduce TaskList size by 1";
 
-        return tasks.remove(idx);
+        return deletedTask;
     }
 
     public Task mark(int idx) throws YapException {
@@ -45,6 +53,7 @@ public class TaskList {
             throw new YapException("Don't worry!! You've already done this!");
         }
         t.markAsDone();
+        assert t.isDone() : "A task marked must be done";
         return t;
     }
 
@@ -58,6 +67,7 @@ public class TaskList {
             throw new YapException("This task is already unmarked!");
         }
         t.unmark();
+        assert !t.isDone() : "A task unmarked must be incomplete";
         return t;
     }
 

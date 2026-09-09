@@ -48,6 +48,7 @@ public class Task {
      */
     public void markAsDone() {
         this.isDone = true;
+        assert this.isDone : "maskAsDone must complete the task";
     }
 
     /**
@@ -55,6 +56,7 @@ public class Task {
      */
     public void unmark() {
         this.isDone = false;
+        assert !this.isDone : "unmark must leave task as incomplete";
     }
 
     /**
