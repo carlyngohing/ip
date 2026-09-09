@@ -1,6 +1,7 @@
 package yapatron.task;
 import yapatron.YapException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -92,12 +93,14 @@ public class TaskList {
      * @return List of matching tasks
      */
     public List<Task> find(String word) {
+        String[] keywords = word.trim().toLowerCase(Locale.ROOT).split("\\s+");
         String keyword = word.toLowerCase(Locale.ROOT);
 
         return tasks.stream().
-        filter(task -> task.getDesc()
-        .toLowerCase(Locale.ROOT)
-        .contains(keyword))
+        filter(task -> {
+            String description = task.getDesc().toLowerCase(Locale.ROOT);
+            return Arrays.stream(keywords).allMatch(description::contains);
+        })
         .collect(Collectors.toList());
     }
 }
