@@ -38,19 +38,19 @@ public class Save {
     public List<Task> getTasks() throws YapException {
         // get tasks from the filepath
         List<Task> tasks = new ArrayList<>();
-        File f = new File(this.path);
+        File file = new File(this.path);
 
-        if (!f.exists()) {
+        if (!file.exists()) {
             return tasks;
         }
 
         try {
-            Scanner s = new Scanner(f);
-            while (s.hasNext()) {
-                String line = s.nextLine();
-                Task t = parseTask(line);
-                if (t != null) {
-                    tasks.add(t);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                Task task = parseTask(line);
+                if (task != null) {
+                    tasks.add(task);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -72,16 +72,16 @@ public class Save {
     public void saveTasks(List<Task> tasks) throws YapException {
         // saves list of tasks to the file
         try {
-            File f = new File(this.path);
-            if (f.getParentFile() != null && !f.getParentFile().exists()) {
-                f.getParentFile().mkdirs();
+            File file = new File(this.path);
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
             }
 
-            FileWriter fw = new FileWriter(this.path);
-            for (Task t: tasks) {
-                fw.write(t.toFileFormat() + System.lineSeparator());
+            FileWriter writer = new FileWriter(this.path);
+            for (Task task: tasks) {
+                writer.write(task.toFileFormat() + System.lineSeparator());
             }
-            fw.close();
+            writer.close();
         } catch (IOException e) {
             System.out.println("Whoops! Something went wrong: " + e.getMessage());
         }
@@ -96,36 +96,36 @@ public class Save {
         String taskType = parts[0];
         boolean isDone = parts[1].equals("X");
         String desc = parts[2];
-        Task t = null;
+        Task task = null;
 
         switch (taskType) {
             case "[TASK]" :
-                t = new Todo(desc);
+                task = new Todo(desc);
                 break;
             case "[DEADLINE]" :
                 if (parts.length < 4) {
                     return null;
                 }
-                t = new Deadline(desc, parts[3]);
+                task = new Deadline(desc, parts[3]);
                 break;
             case "[EVENT]" :
                 if (parts.length < 5) {
                     return null;
                 }
-                t = new Event(desc, parts[3], parts[4]);
+                task = new Event(desc, parts[3], parts[4]);
                 break;
             default:
                 return null;
         }
         
-        assert t != null : "A recognised task type must be used";
+        assert task != null : "A recognised task type must be used";
 
         if (isDone) {
-            t.markAsDone();
-            assert t.isDone() : "A stored completed task must be restored as completed";
+            task.markAsDone();
+            assert task.isDone() : "A stored completed task must be restored as completed";
         }
 
-        return t;
+        return task;
 
     }
 }

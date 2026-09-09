@@ -1,7 +1,6 @@
 package yapatron.commands;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import yapatron.YapException;
 import yapatron.save.Save;
@@ -80,57 +79,99 @@ public class Commands {
             return false;
 
 
+
+
         } else {
-            // adding to list and incre count
-
-            //create new task with scanner
-            Task t = null;
-            if (fn.equals("todo")) {
-                if (parts.length < 2 || parts[1].isEmpty()) {
-                    throw new YapException("TODO is missing a description!");
-                }
-
-                t = new Todo(parts[1]);
-
-            } else if (fn.equals("deadline")) {
-                if (parts.length < 2 || parts[1].isEmpty()) {
-                    throw new YapException("DEADLINE is missing a description!");
-                }
-
-                String[] deadlineParts = parts[1].split(" /by "); // split into desc and date
-
-                if (deadlineParts.length < 2 || deadlineParts[0].isEmpty() || deadlineParts[1].isEmpty()) {
-                    throw new YapException("DEADLINE is missing details!! The correct format is deadline <desc> /by <time>");
-                }
-
-                t = new Deadline(deadlineParts[0], deadlineParts[1]);
-
-            } else if (fn.equals("event")) {
-                if (parts.length < 2 || parts[1].isEmpty()) {
-                    throw new YapException("EVENT is missing a description!");
-                }
-                String[] eventParts = parts[1].split(" /from "); // split into desc and times
-                if (eventParts.length < 2 || eventParts[1].isEmpty()) {
-                    throw new YapException("EVENT is missing a description or timings!");
-                }
-                String[] times = eventParts[1].split(" /to ");
-                if (times.length < 2 || times[0].isEmpty() || times[1].isEmpty()) {
-                    throw new YapException("Event times are missing!! Please include a '/from <time> and '/to <time>");
-                }
-                t = new Event(eventParts[0], times[0], times[1]);
-            } else {
-                throw new YapException("Sorry!!! I don't know how to do that!");
-            }
-            assert t != null : "Every supported task command must create a task";
-
-            if (t != null) {
-                tasks.addTask(t);
-                save.saveTasks(tasks.getTasks());
-                ui.printTaskLine(t, tasks.size() - 1);
-                ui.printLine();
-            }
+            Task task = createTask(fn, parts);
+            tasks.addTask(task);
+            save.saveTasks(tasks.getTasks());
+            ui.printTaskLine(task, tasks.size() - 1);
+            ui.printLine();
             return false;
         }
+    }
+
+    /**
+     * Creates a task from a parsed command.
+     *
+     * @param function command name
+     * @param parts command name and its argument
+     * @return newly created task
+     * @throws YapException if the command or its argument is invalid
+     */
+    private static Task createTask(String function, String[] parts) throws YapException {
+        switch (function) {
+            case "todo":
+                return createTodo(parts);
+            case "deadline":
+                return createDeadline(parts);
+            case "event":
+                return createEvent(parts);
+            default:
+                throw new YapException("Sorry!!! I don't know how to do that!");
+        }
+    }
+
+    /**
+     * Creates a todo task from command parts.
+     *
+     * @param parts command name and description
+     * @return newly created todo task
+     * @throws YapException if the description is missing
+     */
+    private static Task createTodo(String[] parts) throws YapException {
+        if (parts.length < 2 || parts[1].isEmpty()) {
+            throw new YapException("TODO is missing a description!");
+        }
+        return new Todo(parts[1]);
+    }
+
+    /**
+     * Creates a deadline task from command parts.
+     *
+     * @param parts command name and deadline details
+     * @return newly created deadline task
+     * @throws YapException if the deadline details are missing or malformed
+     */
+    private static Task createDeadline(String[] parts) throws YapException {
+        if (parts.length < 2 || parts[1].isEmpty()) {
+            throw new YapException("DEADLINE is missing a description!");
+        }
+
+        String[] deadlineParts = parts[1].split(" /by ");
+        if (deadlineParts.length < 2 || deadlineParts[0].isEmpty()
+                || deadlineParts[1].isEmpty()) {
+            throw new YapException(
+                    "DEADLINE is missing details!! The correct format is deadline <desc> /by <time>");
+        }
+
+        return new Deadline(deadlineParts[0], deadlineParts[1]);
+    }
+
+    /**
+     * Creates an event task from command parts.
+     *
+     * @param parts command name and event details
+     * @return newly created event task
+     * @throws YapException if the event details are missing or malformed
+     */
+    private static Task createEvent(String[] parts) throws YapException {
+        if (parts.length < 2 || parts[1].isEmpty()) {
+            throw new YapException("EVENT is missing a description!");
+        }
+
+        String[] eventParts = parts[1].split(" /from ");
+        if (eventParts.length < 2 || eventParts[1].isEmpty()) {
+            throw new YapException("EVENT is missing a description or timings!");
+        }
+
+        String[] times = eventParts[1].split(" /to ");
+        if (times.length < 2 || times[0].isEmpty() || times[1].isEmpty()) {
+            throw new YapException(
+                    "Event times are missing!! Please include a '/from <time> and '/to <time>");
+        }
+
+        return new Event(eventParts[0], times[0], times[1]);
     }
 
     private static int getIndex(String[] parts) throws YapException {
@@ -154,6 +195,7 @@ public class Commands {
     }
 
 }
+
 
 
 
