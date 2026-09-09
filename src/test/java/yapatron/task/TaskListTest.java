@@ -3,6 +3,8 @@ package yapatron.task;
 import yapatron.YapException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,6 +53,30 @@ public class TaskListTest {
     tasks.addTask(new Todo("t1"));
     assertThrows(YapException.class, () -> tasks.unmark(1));
     assertThrows(YapException.class, () -> tasks.unmark(-1));
+  }
+
+  @Test
+  public void find_partialKeywordsInAnyOrder_returnsMatchingTasks() {
+    TaskList tasks = new TaskList();
+    Task matchingTask = new Todo("Complete CS2103T tutorial");
+    tasks.addTask(matchingTask);
+    tasks.addTask(new Todo("Read the project textbook"));
+
+    List<Task> matchingTasks = tasks.find("TUTORIAL 2103");
+
+    assertEquals(1, matchingTasks.size());
+    assertEquals(matchingTask, matchingTasks.get(0));
+    assertEquals(2, tasks.size());
+  }
+
+  @Test
+  public void findKeywordMissingFromTask_returnsNoMatches() {
+    TaskList tasks = new TaskList();
+    tasks.addTask(new Todo("Complete CS2103T tutorial"));
+
+    List<Task> matchingTasks = tasks.find("2103 meeting");
+
+    assertTrue(matchingTasks.isEmpty());
   }
 
 }
