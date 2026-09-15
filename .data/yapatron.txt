@@ -1,3 +1,1 @@
-[TASK] | 0 | t1
-[TASK] | 0 | t2
-[TASK] | 0 | t1
+[EVENT] | 0 | trng | 0800 | 0900

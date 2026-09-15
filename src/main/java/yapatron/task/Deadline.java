@@ -1,13 +1,16 @@
 package yapatron.task;
-import yapatron.YapException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+
+import yapatron.YapException;
 
 public class Deadline extends Task {
     protected LocalDateTime deadline;
 
-    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm")
+                                                                           .withResolverStyle(ResolverStyle.STRICT);
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
     private static final DateTimeFormatter STORED_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHMM");
 

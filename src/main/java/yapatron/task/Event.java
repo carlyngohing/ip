@@ -1,5 +1,7 @@
 package yapatron.task;
 
+import yapatron.YapException;
+
 /**
  * Represents an event with a specific start and end 
  */
@@ -17,10 +19,15 @@ public class Event extends Task {
      * @param from Start point
      * @param to End point
      */
-    public Event(String desc, String from, String to) {
+    public Event(String desc, String from, String to) throws YapException{
         super(desc);
         this.from = from;
         this.to = to;
+
+         if (this.from.equalsIgnoreCase(this.to)) {
+            throw new YapException(
+                    "Oops! EVENT start and end times must be different!");
+        }
     }
 
     /** 

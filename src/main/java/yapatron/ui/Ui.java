@@ -1,8 +1,9 @@
 package yapatron.ui;
 
-import yapatron.task.Task;
 import java.util.Scanner;
 import java.util.List;
+
+import yapatron.task.Task;
 
 /**
  * Handles user interactions such as reading inputs and printing responses
@@ -38,6 +39,15 @@ public class Ui {
     }
 
     /**
+     * Prints and caches a response produced by a command.
+     *
+     * @param message response to display and cache
+     */
+    public void printResponse(String message) {
+        print(message);
+    }    
+
+    /**
      * Displays welcome message when program starts
      */
     public void printWelcome() {
@@ -48,7 +58,7 @@ public class Ui {
             "   ██║   ██║  ██║██║     ██║  ██║   ██║   ██║  ██║╚██████╔╝██║ ╚████║\n" +
             "   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝";
 
-        String welcomeMsg = banner + "\nHello Hello!  I'm Yapatron :D\nWhat can I do for you?";
+        String welcomeMsg = banner + "\nHello Helloooo!  I'm Yapatron :D\nWhat can I do for you?";
         print(welcomeMsg);
     }
 
@@ -71,6 +81,42 @@ public class Ui {
         }
         print(sb.toString());
     }
+
+    /**
+     * Displays every task in the current task list and caches the response
+     * for the graphical user interface.
+     *
+     * @param tasks current task list to display
+     */
+    public void printTaskList(List<Task> tasks) {
+        StringBuilder sb = new StringBuilder("Here's your current list!\n\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(i + 1).append(". ").append(tasks.get(i));
+            if (i < tasks.size() - 1) {
+                sb.append("\n");
+            }
+        }
+        sb.append("\n\nMissing anything?");
+        print(sb.toString());
+    }
+
+    /**
+     * Displays the commands supported by Yapatron and caches the help text.
+     */
+    public void printHelp() {
+        print("Commands:\n"
+                + "todo <description>\n"
+                + "deadline <description> /by <d/M/yyyy HHmm>\n"
+                + "event <description> /from <start> /to <end>\n"
+                + "list\n"
+                + "find <keyword>\n"
+                + "mark <task number>\n"
+                + "unmark <task number>\n"
+                + "delete <task number>\n"
+                + "help\n"
+                + "bye");
+    }
+
 
     /**
      * Gets user input from command line

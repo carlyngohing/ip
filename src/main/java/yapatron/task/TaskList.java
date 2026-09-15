@@ -58,7 +58,7 @@ public class TaskList {
         }
         t.markAsDone();
         assert t.isDone() : "A task marked must be done";
-        return t;
+            return t;
     }
 
     public Task unmark(int idx) throws YapException {
@@ -72,7 +72,7 @@ public class TaskList {
         }
         t.unmark();
         assert !t.isDone() : "A task unmarked must be incomplete";
-        return t;
+            return t;
     }
 
     public void printList() {
@@ -97,12 +97,36 @@ public class TaskList {
         String keyword = word.toLowerCase(Locale.ROOT);
 
         return tasks.stream().
-        filter(task -> {
-            String description = task.getDesc().toLowerCase(Locale.ROOT);
-            return Arrays.stream(keywords).allMatch(description::contains);
-        })
+            filter(task -> {
+                String description = task.getDesc().toLowerCase(Locale.ROOT);
+                return Arrays.stream(keywords).allMatch(description::contains);
+            })
         .collect(Collectors.toList());
     }
+
+    /**
+     * Checks whether a task with the same details already exists.
+     * Completion status is ignored because it does not change the task's identity.
+     *
+     * @param candidate task to check for duplication
+     * @return true if an equivalent task already exists, false otherwise
+     */
+    public boolean containsEquivalent(Task candidate) {
+        assert candidate != null : "A candidate task must not be null";
+
+        String candidateDetails = withoutCompletionStatus(candidate);
+
+        return tasks.stream()
+            .map(TaskList::withoutCompletionStatus)
+            .anyMatch(candidateDetails::equals);
+    }
+
+    private static String withoutCompletionStatus(Task task) {
+        // creates a version of a task without completion status to test for dupes
+        return task.toFileFormat()
+            .replaceFirst("\\| [0X] \\|", "| STATUS |");
+    }
+
 }
 
 

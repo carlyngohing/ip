@@ -44,24 +44,27 @@ public class Save {
             return tasks;
         }
 
-        try {
-            Scanner scanner = new Scanner(file);
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 Task task = parseTask(line);
+
                 if (task != null) {
                     tasks.add(task);
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Whoops! Couldn't find this file: " + e.getMessage());
+            throw new YapException(
+                    "Oh noo :( I don't think I have permission to access that file! Bummer.");
+        } catch (YapException e) {
+            throw e;
         } catch (Exception e) {
-            System.out.println("There seems to be problem: " + e.getMessage());
+            throw new YapException(
+                    "Oh noo :( I can't read that #Kena");
         }
 
         return tasks;
     }
-
 
     /**
      * Saves the list of tasks into the file
@@ -73,17 +76,22 @@ public class Save {
         // saves list of tasks to the file
         try {
             File file = new File(this.path);
-            if (file.getParentFile() != null && !file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
 
-            FileWriter writer = new FileWriter(this.path);
-            for (Task task: tasks) {
-                writer.write(task.toFileFormat() + System.lineSeparator());
+            if (file.getParentFile() != null
+                    && !file.getParentFile().exists()
+                    && !file.getParentFile().mkdirs()) {
+                throw new IOException("Erm! I couldn't make a new directory D: #Bums");
+                    }
+
+            try (FileWriter writer = new FileWriter(file)) {
+                for (Task task : tasks) {
+                    writer.write(task.toFileFormat()
+                            + System.lineSeparator());
+                }
             }
-            writer.close();
         } catch (IOException e) {
-            System.out.println("Whoops! Something went wrong: " + e.getMessage());
+            throw new YapException(
+                    "Oh noo :( I don't think I have permission to save that file! #PleaseGiveMe");
         }
     }
 
@@ -117,7 +125,7 @@ public class Save {
             default:
                 return null;
         }
-        
+
         assert task != null : "A recognised task type must be used";
 
         if (isDone) {
