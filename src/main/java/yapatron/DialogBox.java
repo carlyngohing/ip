@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 /**
@@ -37,8 +38,8 @@ public class DialogBox extends HBox {
         displayPicture.setImage(img);
 
         dialog.setWrapText(true);
-        dialog.setPrefWidth(450.0);
-        dialog.setMaxWidth(450.0);
+        dialog.setPrefWidth(500.0);
+        dialog.setMaxWidth(650.0);
         dialog.setMinHeight(Region.USE_PREF_SIZE);
     }
 

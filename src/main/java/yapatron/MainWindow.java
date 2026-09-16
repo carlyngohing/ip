@@ -29,53 +29,60 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/1077114.png"));
 
     private Image yapatronImage = new Image(
-        getClass().getResourceAsStream("/images/happyhamster.png"));
+            getClass().getResourceAsStream("/images/happyhamster.png"));
 
     private Image errorImage = new Image(
-        getClass().getResourceAsStream(
+            getClass().getResourceAsStream(
                 "/images/mac-jones-september-11.png"));
 
     private static final String FONT = loadMinecraftFont();
 
-/**
- * Loads the bundled Minecraft font.
- *
- * @return the loaded font family name
- */
-private static String loadMinecraftFont() {
-    URL fontUrl = MainWindow.class.getResource("/fonts/Minecraft.ttf");
+    /**
+     * Loads the bundled Minecraft font.
+     *
+     * @return the loaded font family name
+     */
+    private static String loadMinecraftFont() {
+        URL fontUrl = MainWindow.class.getResource("/fonts/Minecraft.ttf");
 
-    if (fontUrl == null) {
-        throw new IllegalStateException("Minecraft.ttf was not found");
+        if (fontUrl == null) {
+            throw new IllegalStateException("Minecraft.ttf was not found");
+        }
+
+        Font font = Font.loadFont(fontUrl.toExternalForm(), 13);
+
+        if (font == null) {
+            throw new IllegalStateException("Minecraft.ttf could not be loaded");
+        }
+
+        return font.getFamily();
     }
 
-    Font font = Font.loadFont(fontUrl.toExternalForm(), 13);
-
-    if (font == null) {
-        throw new IllegalStateException("Minecraft.ttf could not be loaded");
+    /**
+     * Gets the font family used by the application.
+     *
+     * @return Minecraft font family
+     */
+    public static String getFont() {
+        return FONT;
     }
 
-    return font.getFamily();
-}
-
-/**
- * Gets the font family used by the application.
- *
- * @return Minecraft font family
- */
-public static String getFont() {
-    return FONT;
-}
-    
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.
-        heightProperty());
-        String fontStyle = "-fx-font-family: '" + FONT + "';";
+                heightProperty());
+        String controlStyle = "-fx-font-family: '" + FONT + "';"
+            + "-fx-font-size: 16px;";
 
-userInput.setStyle(fontStyle);
-sendButton.setStyle(fontStyle);
+        String sendButtonStyle = controlStyle
+            + "-fx-background-color: #1976D2;"
+            + "-fx-text-fill: white;"
+            + "-fx-border-color: transparent;"
+            + "-fx-background-radius: 0;";
+
+        userInput.setStyle(controlStyle);
+        sendButton.setStyle(sendButtonStyle);    
     }
 
     public void setYapatron(Yapatron y) {
@@ -95,15 +102,15 @@ sendButton.setStyle(fontStyle);
 
         String response = yapatron.getResponse(input);
         Image responseImage = yapatron.wasLastResponseAnError()
-                ? errorImage
-                : yapatronImage;
+            ? errorImage
+            : yapatronImage;
 
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getYapatronDialog(response, responseImage)
-        );
+                );
         userInput.clear();
-        
+
         if (input.trim().equalsIgnoreCase("bye")) {
             javafx.application.Platform.exit();
         }
@@ -112,4 +119,4 @@ sendButton.setStyle(fontStyle);
 
 
 
-                        
+

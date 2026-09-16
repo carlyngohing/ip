@@ -13,10 +13,16 @@ Yapatron is chatbot that helps you manage your tasks. Its abilities include allo
 
 ### To run the application
 
+If you downloaded the zip file of the project:
+
 From the project root, run:
 ```
-
 ./gradlew run
+```
+
+With the jar file, run:
+```
+java -jar "Yapatron.jar"
 ```
 
 This runs the main JavaFx GUI. Type 'help' for commands.

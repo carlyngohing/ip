@@ -104,7 +104,7 @@ public class Ui {
      * Displays the commands supported by Yapatron and caches the help text.
      */
     public void printHelp() {
-        print("Commands:\n"
+        print("Your wish is my command!!:\n"
                 + "todo <description>\n"
                 + "deadline <description> /by <d/M/yyyy HHmm>\n"
                 + "event <description> /from <start> /to <end>\n"
