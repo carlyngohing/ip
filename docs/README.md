@@ -9,6 +9,7 @@ Yapatron is chatbot that helps you manage your tasks. Its abilities include allo
 ### Requirements
 - JDK 25
 - An IDE or terminal
+- The zip file or jar, which can be found [here](https://github.com/carlyngohing/ip/releases/tag/A-Release)
 
 ### To run the application
 
