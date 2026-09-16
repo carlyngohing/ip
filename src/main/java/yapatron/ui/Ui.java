@@ -117,7 +117,24 @@ public class Ui {
                 + "bye");
     }
 
+    /**
+     * Displays a confirmation after marking a task as complete.
+     *
+     * @param task task that was marked as complete
+     */
+    public void printMark(Task task) {
+        print("Good job! That's one thing down!!\n  " + task);
+    }
 
+    /**
+     * Displays a confirmation after marking a task as incomplete.
+     *
+     * @param task task that was unmarked
+     */
+    public void printUnmark(Task task) {
+        print("Alright! I've unmarked this task for you :)\n  " + task);
+
+    }
     /**
      * Gets user input from command line
      *

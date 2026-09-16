@@ -21,6 +21,11 @@ public class Yapatron {
     /** Component for handing user interactions */
     private final Ui ui;
 
+    /**
+     * Records whether the most recent response was caused by an error
+     */
+    private boolean wasLastResponseAnError;
+
 
     /** 
      * Creates a Yapatron instance with the specified file path
@@ -50,11 +55,24 @@ public class Yapatron {
     public String getResponse(String input) {
         try {
             Commands.doCommands(input, tasks, ui, save);
+            wasLastResponseAnError = false;
             return ui.getLastResponse();
         } catch (YapException e) {
+            wasLastResponseAnError = true;
             return e.getMessage();
         }
     }
+
+    /**
+     * Checks whether the latest response was caused by an error.
+     *
+     * @return true if the latest response was an error
+     */
+    public boolean wasLastResponseAnError() {
+        return wasLastResponseAnError;
+    }
+
+
 
     /** 
      * Starts main program, reads user commands and perfoms actions until exit

@@ -71,9 +71,7 @@ public class Commands {
             int idx = getIndex(parts);
             Task task = tasks.mark(idx);
             save.saveTasks(tasks.getTasks());
-            System.out.println("Good job! That's one thing down!!");
-            System.out.println("  " + task);
-            System.out.println();
+            ui.printMark(task);
             ui.printLine();
             return false;
 
@@ -82,8 +80,7 @@ public class Commands {
             int idx = getIndex(parts);
             Task task = tasks.unmark(idx);
             save.saveTasks(tasks.getTasks());
-            System.out.println("Alright! I've unmarked this task for you :)");
-            System.out.println("  " + task);
+            ui.printUnmark(task);
             System.out.println();
             ui.printLine();
             return false;
@@ -219,7 +216,7 @@ public class Commands {
 
     private static void handleFind(String word, TaskList tasks, Ui ui) throws YapException {
         if (word.isEmpty()) {
-            throw new YapException("Please share a keyword!");
+            throw new YapException("Uhhh find what now? ");
         }
         List<Task> matchingTasks = tasks.find(word);
         ui.printMatchingTasks(matchingTasks);
@@ -227,15 +224,15 @@ public class Commands {
 
     private static String requireArgument(String[] parts, String cmd) throws YapException {
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new YapException(cmd + " is missing required details.");
+            throw new YapException("Oh nooo:( " + cmd + " is missing info!");
         }
         return parts[1].trim();
     }
 
     private static void rejectUnexpectedArgument(String[] parts, String cmd) throws YapException {
         if (parts.length > 1 && !parts[1].trim().isEmpty()) {
-            throw new YapException(cmd
-                    + " does not take additional arguments.");
+            throw new YapException("Yooo chill " + cmd
+                    + " doesn't need that much info :3");
         }
     }
 

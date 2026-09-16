@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 
 /**
  * An HBox representing a dialog box consisting of an ImageView and a Label.
@@ -34,6 +35,11 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+
+        dialog.setWrapText(true);
+        dialog.setPrefWidth(280.0);
+        dialog.setMaxWidth(280.0);
+        dialog.setMinHeight(Region.USE_PREF_SIZE);
     }
 
     private void flip() {
@@ -44,12 +50,29 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        var db =  new DialogBox(text, img);
+        db.dialog.setStyle(
+                "-fx-background-color: #1976D2;"
+                + "-fx-background-radius: 12;"
+                + "-fx-padding: 9 13 9 13;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-family: '" + MainWindow.getFont() + "';"
+                + "-fx-font-size: 13px;"
+                );
+        return db;
     }
 
     public static DialogBox getYapatronDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        db.dialog.setStyle(
+                "-fx-background-color: #E8EEF2;"
+                + "-fx-background-radius: 12;"
+                + "-fx-padding: 9 13 9 13;"
+                + "-fx-text-fill: #263238;"
+                + "-fx-font-family: '" + MainWindow.getFont() + "';"
+                + "-fx-font-size: 13px;"
+                );
         return db;
     }
 }
