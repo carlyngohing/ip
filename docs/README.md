@@ -1,7 +1,6 @@
 # Yapatron User Guide
 
-![Screenshot of the Yapatron Ui for some comments and features]
-(Ui.png)
+![Screenshot of the Yapatron Ui for some comments and features](Ui.png)
 
 Yapatron is chatbot that helps you manage your tasks. Its abilities include allowing you to create, search, mark and delete tasks using commands.
 
