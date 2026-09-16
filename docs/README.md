@@ -50,22 +50,26 @@ Create tasks with specific time frames.
 
 For deadline:
 ```
-deadline <description> /by <date and time>
+deadline <description> /by <d/M/yyyy HHmm>
 ```
 
-This is for tasks with deadlines.
+This is for tasks with deadlines. 
+You can also simply just enter the date or time alone.
 
 For event:
 ```
-event <description> /from <start> /to <end>
+event <description> /from <d/M/yyyy HHmm> /to <d/M/yyyy HHmm>
 ```
 
 This is for tasks with time frames.
+You can also simply just enter the date or time alone.
+
 
 When called, the tasks will be added to your task list.
 
 Example:
 ```
+deadline werk /by 2/2/2027 2200
 event training /from 1930 /to 2200
 ```
 ## Marking tasks

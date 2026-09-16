@@ -1,4 +1,5 @@
-[EVENT] | X | d | 9 | 10
-[TASK] | X | t
-[TASK] | 0 | 3
-[TASK] | 0 | 1
+[TASK] | 0 | update user guide to reflect changes
+[TASK] | 0 | fix events stuff
+[DEADLINE] | 0 | task | 25/9/2026
+[DEADLINE] | 0 | task | 2359
+[DEADLINE] | 0 | task | 2026-09-25 2359

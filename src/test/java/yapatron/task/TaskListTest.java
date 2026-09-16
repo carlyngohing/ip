@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class TaskListTest {
-  // add
 
   @Test
   public void add_oneTask_incrementsCorrectly() {
@@ -78,6 +78,39 @@ public class TaskListTest {
 
     assertTrue(matchingTasks.isEmpty());
   }
+
+  /**
+ * Verifies that event timings must contain a date or a time.
+ */
+@Test
+public void eventWithNoDateOrTime_throwsException() {
+    assertThrows(YapException.class,
+            () -> new Event("no timing", "tomorrow", "2 days after"));
+}
+
+/**
+ * Verifies that date-only and time-only event timings are accepted.
+ */
+@Test
+public void eventWithDateOnlyOrTimeOnly_isAccepted() throws YapException {
+    assertDoesNotThrow(() ->
+            new Event("date only", "6/7/2026", "7/8/2026"));
+
+    assertDoesNotThrow(() ->
+            new Event("time only", "0900", "1000"));
+}
+
+/**
+ * Verifies that invalid dates and times are rejected for events.
+ */
+@Test
+public void eventWithInvalidDateOrTime_throwsException() {
+    assertThrows(YapException.class,
+            () -> new Event("invalid date", "30/2/2027", "1/3/2027"));
+
+    assertThrows(YapException.class,
+            () -> new Event("invalid time", "2600", "2700"));
+}
 
 }
 

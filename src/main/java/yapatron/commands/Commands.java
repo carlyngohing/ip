@@ -146,18 +146,18 @@ public class Commands {
      */
     private static Task createDeadline(String[] parts) throws YapException {
         if (parts.length < 2 || parts[1].isEmpty()) {
-            throw new YapException("DEADLINE is missing a description!");
+            throw new YapException("Hey!!! DEADLINE is missing a description!");
         }
 
         String[] deadlineParts = parts[1].split(" /by ");
         if (deadlineParts.length < 2 || deadlineParts[0].isEmpty()
                 || deadlineParts[1].isEmpty()) {
             throw new YapException(
-                    "DEADLINE is missing details!! The correct format is deadline <desc> /by <time>");
+                    "DEADLINE is missing details!! The correct format is deadline <desc> /by <d-M-yyyy HHmm> (or just date/ time :D)");
                 }
         if (deadlineParts[1].matches("(?i).*\\s+/by\\s+.*")) {
             throw new YapException(
-                    "DEADLINE should contain only one '/by' parameter.");
+                    "Oops!! DEADLINE should contain only one '/by' parameter.");
         }
 
         return new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim());
@@ -172,24 +172,34 @@ public class Commands {
      */
     private static Task createEvent(String[] parts) throws YapException {
         if (parts.length < 2 || parts[1].isEmpty()) {
-            throw new YapException("EVENT is missing a description!");
+            throw new YapException("Oops!! EVENT is missing a description!\n"
+                    + "Use event <desc> /from <d/M/yyyy HHmm>"
+                    + " /to <d/M/yyyy HHmm>\n"
+                    + "#Pleaseeee");
         }
 
         String[] eventParts = parts[1].split(" /from ");
         if (eventParts.length < 2 || eventParts[1].isEmpty()) {
-            throw new YapException("EVENT is missing a description or timings!");
+            throw new YapException("Oops!! EVENT is missing a description or timings!\n"
+                   
+                    + "Use event <desc> /from <d/M/yyyy HHmm>"
+                    + " /to <d/M/yyyy HHmm>\n"
+                    + "#Pleaseeee");
         }
 
         String[] times = eventParts[1].split(" /to ");
         if (times.length < 2 || times[0].isEmpty() || times[1].isEmpty()) {
             throw new YapException(
-                    "Event times are missing!! Please include a '/from <time> and '/to <time>");
+                    "Oops!!! Event times are missing!!\n"
+                    + "Use event <desc> /from <d/M/yyyy HHmm>"
+                    + " /to <d/M/yyyy HHmm>\n"
+                    + "#Pleaseeee");
         }
 
         if (times[1].matches("(?i).*\\s+/to\\s+.*")
                 || eventParts[1].matches("(?i).*\\s+/from\\s+.*")) {
             throw new YapException(
-                    "EVENT should contain only one '/from' and one '/to' parameter.");
+                    "Oops!! EVENT should contain only one '/from' and one '/to' parameter.");
                 }
 
         return new Event(eventParts[0], times[0].trim(), times[1].trim());
@@ -215,14 +225,16 @@ public class Commands {
     }
 
     private static void handleFind(String word, TaskList tasks, Ui ui) throws YapException {
-        if (word.isEmpty()) {
-            throw new YapException("Uhhh find what now? ");
-        }
         List<Task> matchingTasks = tasks.find(word);
         ui.printMatchingTasks(matchingTasks);
     }
 
     private static String requireArgument(String[] parts, String cmd) throws YapException {
+
+        if ("find".equalsIgnoreCase(cmd) && parts.length == 1) {
+            throw new YapException("Uhhh find what now?");
+        }
+
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new YapException("Oh nooo:( " + cmd + " is missing info!");
         }
