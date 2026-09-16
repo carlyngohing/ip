@@ -160,7 +160,7 @@ public class Commands {
                     "DEADLINE should contain only one '/by' parameter.");
         }
 
-        return new Deadline(deadlineParts[0], deadlineParts[1]);
+        return new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim());
     }
 
     /**
@@ -192,7 +192,7 @@ public class Commands {
                     "EVENT should contain only one '/from' and one '/to' parameter.");
                 }
 
-        return new Event(eventParts[0], times[0], times[1]);
+        return new Event(eventParts[0], times[0].trim(), times[1].trim());
     }
 
     private static int getIndex(String[] parts) throws YapException {

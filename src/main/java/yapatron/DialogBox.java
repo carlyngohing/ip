@@ -37,8 +37,8 @@ public class DialogBox extends HBox {
         displayPicture.setImage(img);
 
         dialog.setWrapText(true);
-        dialog.setPrefWidth(280.0);
-        dialog.setMaxWidth(280.0);
+        dialog.setPrefWidth(450.0);
+        dialog.setMaxWidth(450.0);
         dialog.setMinHeight(Region.USE_PREF_SIZE);
     }
 
@@ -57,7 +57,7 @@ public class DialogBox extends HBox {
                 + "-fx-padding: 9 13 9 13;"
                 + "-fx-text-fill: white;"
                 + "-fx-font-family: '" + MainWindow.getFont() + "';"
-                + "-fx-font-size: 13px;"
+                + "-fx-font-size: 15px;"
                 );
         return db;
     }
@@ -71,7 +71,7 @@ public class DialogBox extends HBox {
                 + "-fx-padding: 9 13 9 13;"
                 + "-fx-text-fill: #263238;"
                 + "-fx-font-family: '" + MainWindow.getFont() + "';"
-                + "-fx-font-size: 13px;"
+                + "-fx-font-size: 15px;"
                 );
         return db;
     }

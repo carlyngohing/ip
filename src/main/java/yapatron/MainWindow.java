@@ -81,7 +81,9 @@ sendButton.setStyle(fontStyle);
     public void setYapatron(Yapatron y) {
         this.yapatron = y;
         dialogContainer.getChildren().add(
-                DialogBox.getYapatronDialog("Hello!!! My name is Yapatron :D What would you like to do?", yapatronImage));
+                DialogBox.getYapatronDialog("Hello hellooooo"
+                    + "!!! My name is Yapatron :D What's the haps for todayayayay?", 
+                    yapatronImage));
     }
 
     @FXML

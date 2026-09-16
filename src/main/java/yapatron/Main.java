@@ -23,6 +23,11 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setTitle("Yapatron :D");
             fxmlLoader.<MainWindow>getController().setYapatron(yapatron);
+
+            stage.setWidth(800);
+            stage.setHeight(700);
+            stage.setMinWidth(400);
+            stage.setMinHeight(300);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
