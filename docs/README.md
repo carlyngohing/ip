@@ -1,7 +1,6 @@
 # Yapatron User Guide
 
-![Screenshot of the Yapatron Ui for some comments and features]
-(Ui.png)
+![Screenshot of the Yapatron Ui for some comments and features](Ui.png)
 
 Yapatron is chatbot that helps you manage your tasks. Its abilities include allowing you to create, search, mark and delete tasks using commands.
 
@@ -10,6 +9,7 @@ Yapatron is chatbot that helps you manage your tasks. Its abilities include allo
 ### Requirements
 - JDK 25
 - An IDE or terminal
+- The zip file or jar, which can be found [here](https://github.com/carlyngohing/ip/releases/tag/A-Release)
 
 ### To run the application
 
@@ -22,7 +22,7 @@ From the project root, run:
 
 With the jar file, run:
 ```
-java -jar "Yapatron.jar"
+java -jar "yapatron.jar"
 ```
 
 This runs the main JavaFx GUI. Type 'help' for commands.
