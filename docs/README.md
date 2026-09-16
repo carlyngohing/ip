@@ -22,7 +22,7 @@ From the project root, run:
 
 With the jar file, run:
 ```
-java -jar "Yapatron.jar"
+java -jar "yapatron.jar"
 ```
 
 This runs the main JavaFx GUI. Type 'help' for commands.
