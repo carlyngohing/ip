@@ -1,13 +1,18 @@
 package yapatron;
 
 import java.net.URL;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import javafx.scene.text.Font;
 
 /**
@@ -23,6 +28,17 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private ImageView backgroundImage;
+
+    @FXML
+    private ImageView bannerImage;
+
+    @FXML
+    private Label bannerTitle;
+
+    @FXML
+    private Label bannerSubtitle;
 
     private Yapatron yapatron;
 
@@ -34,6 +50,15 @@ public class MainWindow extends AnchorPane {
     private Image errorImage = new Image(
             getClass().getResourceAsStream(
                 "/images/mac-jones-september-11.png"));
+
+    private Image skyWallpaper =
+        new Image(getClass().getResourceAsStream(
+                    "/images/skyWallpaperIp.jpg"));
+
+    private Image yapatronBannerImage =
+        new Image(getClass().getResourceAsStream(
+                    "/images/Yapatron.png"));
+
 
     private static final String FONT = loadMinecraftFont();
 
@@ -70,8 +95,56 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     public void initialize() {
-        scrollPane.vvalueProperty().bind(dialogContainer.
-                heightProperty());
+
+        backgroundImage.setImage(skyWallpaper);
+        backgroundImage.setPreserveRatio(false);
+
+        AnchorPane root = (AnchorPane) backgroundImage.getParent();
+
+        backgroundImage.fitWidthProperty().bind(root.widthProperty());
+        backgroundImage.fitHeightProperty().bind(root.heightProperty());
+
+        bannerImage.setImage(yapatronBannerImage);
+
+        bannerTitle.setStyle(
+                "-fx-font-family: '" + FONT + "';"
+                + "-fx-font-size: 42px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-text-fill: #000000;");
+
+        bannerSubtitle.setStyle(
+                "-fx-font-family: '" + FONT + "';"
+                + "-fx-font-size: 22px;"
+                + "-fx-font-style: italic;"
+                + "-fx-font-weight: bold;"
+                + "-fx-text-fill: #607D8B;");
+
+
+        scrollPane.vvalueProperty().
+            bind(dialogContainer.
+                    heightProperty());
+
+        scrollPane.setStyle("-fx-background-color: transparent;"
+                + "-fx-background-insets: 0;"
+                + "-fx-padding: 0;"
+                );
+
+        scrollPane.skinProperty().addListener(
+                (observable, oldSkin, newSkin) -> {
+                    if (newSkin != null) {
+                        Platform.runLater(() -> {
+                            Node viewport = scrollPane.lookup(".viewport");
+
+                            if (viewport != null) {
+                                viewport.setStyle(
+                                        "-fx-background-color: transparent;"
+                                        + "-fx-background-insets: 0;"
+                                        );
+                            }
+                        });
+                    }
+                });
+
         String controlStyle = "-fx-font-family: '" + FONT + "';"
             + "-fx-font-size: 16px;";
 

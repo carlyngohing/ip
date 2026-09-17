@@ -25,22 +25,25 @@ public class DialogBox extends HBox {
     private ImageView displayPicture;
 
     private DialogBox(String text, Image img) {
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         dialog.setText(text);
         displayPicture.setImage(img);
-
         dialog.setWrapText(true);
-        dialog.setPrefWidth(500.0);
+        dialog.setPrefWidth(Region.USE_COMPUTED_SIZE);
         dialog.setMaxWidth(650.0);
         dialog.setMinHeight(Region.USE_PREF_SIZE);
+        //HBox.setHgrow(dialog, Priority.ALWAYS);
+
     }
 
     private void flip() {
@@ -55,9 +58,13 @@ public class DialogBox extends HBox {
         db.dialog.setStyle(
                 "-fx-background-color: #1976D2;"
                 + "-fx-background-radius: 12;"
+                + "-fx-border-color: #263238;"
+                + "-fx-border-width: 2px;"
+                + "-fx-border-radius: 12;"
                 + "-fx-padding: 9 13 9 13;"
                 + "-fx-text-fill: white;"
-                + "-fx-font-family: '" + MainWindow.getFont() + "';"
+                + "-fx-font-family: '" 
+                + MainWindow.getFont() + "';"
                 + "-fx-font-size: 15px;"
                 );
         return db;
@@ -69,6 +76,9 @@ public class DialogBox extends HBox {
         db.dialog.setStyle(
                 "-fx-background-color: #E8EEF2;"
                 + "-fx-background-radius: 12;"
+                + "-fx-border-color: #263238;"
+                + "-fx-border-width: 2px;"
+                + "-fx-border-radius: 12;"
                 + "-fx-padding: 9 13 9 13;"
                 + "-fx-text-fill: #263238;"
                 + "-fx-font-family: '" + MainWindow.getFont() + "';"
