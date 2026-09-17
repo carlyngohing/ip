@@ -42,7 +42,6 @@ public class DialogBox extends HBox {
         dialog.setPrefWidth(Region.USE_COMPUTED_SIZE);
         dialog.setMaxWidth(650.0);
         dialog.setMinHeight(Region.USE_PREF_SIZE);
-        //HBox.setHgrow(dialog, Priority.ALWAYS);
 
     }
 
