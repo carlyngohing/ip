@@ -33,6 +33,10 @@ public class Commands {
             throw new YapException("Hey!! Did you forget a command? :P");
         }
 
+        if (cmd.contains("|")) {
+            throw new YapException("Sorryy!! '|' is not allowed in commands.");
+        }
+
         String[] parts = cmd.split(" ", 2);
         String fn = parts[0].toLowerCase(Locale.ROOT);
         if (fn.equals("bye")) {
@@ -153,7 +157,7 @@ public class Commands {
         if (deadlineParts.length < 2 || deadlineParts[0].isEmpty()
                 || deadlineParts[1].isEmpty()) {
             throw new YapException(
-                    "DEADLINE is missing details!! The correct format is deadline <desc> /by <d-M-yyyy HHmm> (or just date/ time :D)");
+                    "Hold up! DEADLINE is missing details!! The correct format is deadline <desc> /by <d-M-yyyy HHmm> (or just date/ time :D)");
                 }
         if (deadlineParts[1].matches("(?i).*\\s+/by\\s+.*")) {
             throw new YapException(
@@ -181,7 +185,7 @@ public class Commands {
         String[] eventParts = parts[1].split(" /from ");
         if (eventParts.length < 2 || eventParts[1].isEmpty()) {
             throw new YapException("Oops!! EVENT is missing a description or timings!\n"
-                   
+
                     + "Use event <desc> /from <d/M/yyyy HHmm>"
                     + " /to <d/M/yyyy HHmm>\n"
                     + "#Pleaseeee");

@@ -1,28 +1,37 @@
 plugins {
     id 'java'
-    id 'application'
-    id 'com.gradleup.shadow' version '9.5.1'
-    id 'checkstyle'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
+        id 'application'
+        id 'com.gradleup.shadow' version '9.5.1'
+        id 'checkstyle'
+        id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
 }
 
 repositories {
     mavenCentral()
 }
 
+def javafxVersion = '21.0.1'
+def buildArch = System.getProperty('os.arch').toLowerCase()
+def macClassifier = (buildArch.contains('aarch64') || buildArch.contains('arm64'))
+? 'mac-aarch64'
+: 'mac'
 
 dependencies {
 
     String jUnitTestVersion = '5.14.4'
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitTestVersion}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitTestVersion}"
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
+        testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitTestVersion}"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitTestVersion}"
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
+
+        runtimeOnly "org.openjfx:javafx-graphics:${javafxVersion}:win"
+        runtimeOnly "org.openjfx:javafx-graphics:${javafxVersion}:linux"
+        runtimeOnly "org.openjfx:javafx-graphics:${javafxVersion}:${macClassifier}"
 }
 
 checkstyle {
@@ -31,28 +40,28 @@ checkstyle {
 
 javafx {
     version = '21.0.1'
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+        modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 tasks.withType(Checkstyle) {
     reports {
         xml.required = false
-        html.required = true
+            html.required = true
     }
 }
 
 test {
     useJUnitPlatform()
 
-    testLogging {
-        events 'passed', 'skipped', 'failed'
+        testLogging {
+            events 'passed', 'skipped', 'failed'
 
-        showExceptions = true
-        exceptionFormat = 'full'
-        showCauses = true
-        showStackTraces = true
-        showStandardStreams = false
-    }
+                showExceptions = true
+                exceptionFormat = 'full'
+                showCauses = true
+                showStackTraces = true
+                showStandardStreams = false
+        }
 }
 
 application {
@@ -61,16 +70,16 @@ application {
 
 tasks.register('runGui', JavaExec) {
     group = 'application'
-    description = 'Runs the Yapatron JavaFX GUI'
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'yapatron.ui.Gui'
+        description = 'Runs the Yapatron JavaFX GUI'
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = 'yapatron.ui.Gui'
 }
 
 jar {
     // A lean JAR file (i.e., without the dependencies packaged inside) is not needed.
     enabled = false
-    // Rename its output anyway; Gradle forbids it clashing with the shadowJar output file, even for a disabled task.
-    archiveClassifier = 'without-dependencies'
+        // Rename its output anyway; Gradle forbids it clashing with the shadowJar output file, even for a disabled task.
+        archiveClassifier = 'without-dependencies'
 }
 
 shadowJar {
